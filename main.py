@@ -1,5 +1,3 @@
 print('Hello World')
 
-n = 5
-print(n)
-print('Linus stinkt')
+print("Leon ist komisch")
