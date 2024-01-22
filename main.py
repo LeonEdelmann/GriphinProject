@@ -1,3 +1,3 @@
 print('Hello World')
 
-print("Leon ist komisch")
+print('linus ist duum')
