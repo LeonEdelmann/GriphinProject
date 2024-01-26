@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+    <script defer src="{{ url_for('static', filename='js/login.js')}}"></script>
+</head>
+<body>
+    <div class="content">
+        <h2>Log In</h2>
+        <div class="form">
+            <div class="error">
+                <font id="error"></font>
+            </div>
+            <div class="username-field">
+                <font>Nutzername:</font>
+                <br>
+                <input type="text" id="username" placeholder="Nutzername" required>
+            </div>
+            <div class="password-field">
+                <font>Passwort:</font>
+                <br>
+                <input type="password" id="password" placeholder="Passwort" required>
+            </div>
+            <div class="buttons">
+                <button class="button" onclick="login()">Log In</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

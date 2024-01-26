@@ -37,7 +37,7 @@ def isUsernameUsed(username) -> bool:
     connection = sqlite3.connect('database/user.db')
     cursor = connection.cursor()
 
-    cursor.execute('SELECT * FROM users WHERE username = ?', (username))
+    cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
     user = cursor.fetchone()
 
     connection.commit()
@@ -56,3 +56,19 @@ def prooveEmail(email) -> bool:
             return True
 
     return False
+
+def allowedLogin(username, password) -> str:
+    connection = sqlite3.connect('database/user.db')
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password,))
+    user = cursor.fetchone()
+
+    connection.commit()
+    connection.close()
+
+    print(user)
+    if user is None:
+        return 'Nutzername oder Passwort falsch.'
+    else:
+        return 'OK'
