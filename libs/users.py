@@ -1,4 +1,5 @@
 import sqlite3
+from settings import settings
 
 # Tabelle generieren
 connection = sqlite3.connect('database/user.db')
@@ -31,3 +32,27 @@ def writeUser(data) -> str:
     connection.close()
 
     return 'Account written'
+
+def isUsernameUsed(username) -> bool:
+    connection = sqlite3.connect('database/user.db')
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT * FROM users WHERE username = ?', (username))
+    user = cursor.fetchone()
+
+    connection.commit()
+    connection.close()
+
+    if user is None:
+        return False
+    else:
+        return True
+    
+def prooveEmail(email) -> bool:
+    allowed = settings['allowedEMAILS']
+
+    for mail in allowed:
+        if mail in email:
+            return True
+
+    return False

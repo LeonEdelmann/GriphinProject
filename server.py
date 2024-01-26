@@ -2,7 +2,9 @@
 # Mach nichts ohne mich hier, weil die Datei wird riesig werden
 
 from flask import Flask, render_template, session, redirect, url_for, request
-from libs.users import writeUser
+from libs.users import writeUser, isUsernameUsed, prooveEmail
+import secrets
+
 
 server = Flask(__name__)
 
@@ -16,7 +18,7 @@ def signup():
     if request.method == 'GET':
         return render_template('signup.html')
     elif request.method == 'POST':
-        id = request.json['id']
+        id = secrets.token_hex(8)
         username = request.json['username']
         name = request.json['name']
         email = request.json['email']
@@ -26,10 +28,14 @@ def signup():
         profile_pic = request.json['profile_pic']
         info = request.json['info']
         # ToDo:
-        # 1. ID muss generiert werden
         # 2. Profilbild muss gespeichert werden un Path im array angeben
-        # 3. Überprüfen das der Nutzername noch nicht vergeben ist
-        
-        data = [id, username, name, email, password, age, birthday, profile_pic, info]
+
+        if isUsernameUsed(username) == True:
+            return 'Nutzername vergeben.'
+        else:
+            if prooveEmail(email) == True:
+                data = [id, username, name, email, password, age, birthday, profile_pic, info]
+            else:
+                return 'E-Mail nicht erlaubt.'
 
         return writeUser(data)

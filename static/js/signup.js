@@ -3,7 +3,6 @@
 
 function send() {
     let account = {
-        id: "id",
         username: "Linusderdepp",
         name: "Linus",
         email: "linus@idiot.de",

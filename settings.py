@@ -7,5 +7,6 @@ settings = {
     "port": 80,
     "debug": True,
     "adminURL": "/dvfbdlcvsbd",
-    "secret_key": "LinusIstDoof"
+    "secret_key": "LinusIstDoof",
+    "allowedEMAILS": ['@icloud', '@outlook', '@gmail', '@web', '@gmx']
 }
