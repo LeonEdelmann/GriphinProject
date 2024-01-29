@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Du bist nicht angemeldet</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/notLogin.css')}}">
+</head>
+<body>
+    <div class="content">
+        <h1>Du bist nicht angemeldet!</h1>
+        <div class="info">
+            <p>Wenn du nicht angemeldet bist, kannst du nicht auf deine Startseite gelangen.</p>
+            <p>Melde dich an oder erstelle einen Account.</p>
+        </div>
+        <div class="links">
+            <a href="/login">Anmelden</a>
+            <a href="/signup">Account erstellen</a>
+        </div>
+    </div>
+</body>
+</html>

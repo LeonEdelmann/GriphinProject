@@ -3,7 +3,7 @@
 
 from flask import Flask, render_template, session, redirect, url_for, request, jsonify
 from werkzeug.utils import secure_filename
-from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin
+from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin, proofeBirthdate
 import secrets
 
 extensions = set(['jpg', 'jpeg', 'png'])
@@ -26,22 +26,23 @@ def signup():
         name = request.json['name']
         email = request.json['email']
         password = request.json['password']
-        age = request.json['age']
         birthday = request.json['birthday']
-        profile_pic = request.json['profile_pic']
         info = request.json['info']
         # ToDo:
         # 2. Profilbild muss gespeichert werden un Path im array angeben
 
         if isUsernameUsed(username) == True:
-            return 'Nutzername vergeben.'
+            return jsonify('Nutzername vergeben.')
         else:
-            #if prooveEmail(email) == True:
-            data = [id, username, name, email, password, age, birthday, profile_pic, info]
-            #else:
-            #return 'E-Mail nicht erlaubt.'
+            if prooveEmail(email) == True:
+                if proofeBirthdate(birthday) == True:
+                    data = [id, username, name, email, password, birthday, info]
+                    return jsonify(writeUser(data))
+                else:
+                    return jsonify('Geburtsdatum ist falsch.')
+            else:
+                return jsonify('E-Mail nicht erlaubt.')
 
-            return writeUser(data)
     
 @server.route('/login', methods=['GET', 'POST'])
 def login():
@@ -53,7 +54,7 @@ def login():
 
         if allowedLogin(username, password) == 'OK':
             session['username'] = username
-            return redirect(url_for('home'))
+            return jsonify('OK')
         elif allowedLogin(username, password) == 'Nutzername oder Passwort falsch.':
             return jsonify('Nutzername oder Passwort falsch.')
         
@@ -63,3 +64,8 @@ def home():
         return render_template('home.html')
     else:
         return render_template('notLogin.html')
+    
+@server.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('main'))

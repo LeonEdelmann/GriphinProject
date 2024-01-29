@@ -1,0 +1,14 @@
+Existierende Accounts:
+
+Nutzername: Linusderdepp
+email: test@gmail.com
+Name: Linus Drueppel
+Geburtstag: 07.07.2007
+Passwort: test
+
+
+Nutzername: LEON
+email: test@icloud.com
+Name: Leon Edelmann
+Geburtstag: 08.02.2007
+Passwort: test123

@@ -5,7 +5,7 @@ function login() {
     let passwordInput = document.getElementById('password');
 
     let username = usernameInput.value;
-    let password = passwordInput.value;
+    let password = sha256(passwordInput.value);
     
     if (username == '' || password == '') {
         errorField.innerHTML += 'Nutzername oder Passwort eingeben';
@@ -30,7 +30,7 @@ function login() {
             if (result == 'Nutzername oder Passwort falsch.') {
                 errorField.innerHTML += result;
             } else {
-                console.log('OK');
+                window.location.href = "/home";
             }
         });
     }

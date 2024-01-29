@@ -1,12 +1,14 @@
 import sqlite3
 from settings import settings
+import hashlib
+from datetime import datetime
 
 # Tabelle generieren
 connection = sqlite3.connect('database/user.db')
 cursor = connection.cursor()
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS users
-               (id TEXT, username TEXT, name TEXT, email TEXT, password TEXT, age TEXT, birthday TEXT, profile_pic TEXT, info TEXT)''')
+               (id TEXT, username TEXT, name TEXT, email TEXT, password TEXT, birthday TEXT, info TEXT, profile_pic TEXT)''')
 connection.commit()
 connection.close()
 
@@ -17,16 +19,16 @@ def writeUser(data) -> str:
     name = data[2]
     email = data[3]
     password = data[4]
-    age = data[5]
-    birthday = data[6]
-    profile_pic = data[7]
-    info = data[8]
+    birthday = data[5]
+    info = data[6]
+
+    safe_password = hashlib.sha512(password.encode('utf-8')).hexdigest()
 
     connection = sqlite3.connect('database/user.db')
     cursor = connection.cursor()
 
-    cursor.execute('INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-                   (id, username, name, email, password, age, birthday, profile_pic, info))
+    cursor.execute('INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+                   (id, username, name, email, safe_password, birthday, info, ''))
 
     connection.commit()
     connection.close()
@@ -58,17 +60,30 @@ def prooveEmail(email) -> bool:
     return False
 
 def allowedLogin(username, password) -> str:
+    safe_password = hashlib.sha512(password.encode('utf-8')).hexdigest()
+
     connection = sqlite3.connect('database/user.db')
     cursor = connection.cursor()
 
-    cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password,))
+    cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, safe_password,))
     user = cursor.fetchone()
 
     connection.commit()
     connection.close()
 
-    print(user)
     if user is None:
         return 'Nutzername oder Passwort falsch.'
     else:
         return 'OK'
+
+def proofeBirthdate(date) -> bool:
+    try:
+        birthdate = datetime.strptime(date, '%Y-%m-%d')
+
+        today = datetime.now()
+        if birthdate < today:
+            return True
+        else:
+            return False
+    except ValueError:
+        return False

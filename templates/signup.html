@@ -5,8 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <script defer src="{{ url_for('static', filename='js/signup.js')}}"></script>
+    <script defer src="{{ url_for('static', filename='js/sha256.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css')}}">
 </head>
 <body>
-    <button onclick="send()">Senden</button>
+    <div class="content">
+        <div class="title">
+            <h2>Sign Up | Erstelle deinen Account</h2>
+            <font class="info">Alle Felder mt * müssen ausgefüllt werden!</font>
+            <br>
+            <font id="error"></font>
+        </div>
+        <div class="form">
+            <div class="box">
+                <font>E-Mail Adresse: *</font>
+                <br>
+                <input type="text" placeholder="E-Mail Adresse ..." id="email">
+            </div>
+            <div class="box">
+                <font>Nutzername: *</font>
+                <br>
+                <input type="text" placeholder="Nutzername ..." id="username">
+            </div>
+            <div class="box">
+                <font>Vor- und Nachname: *</font>
+                <br>
+                <input type="text" placeholder="Vor- und Nachname ..." id="name">
+            </div>
+            <div class="box">
+                <font>Geburtstag: *</font>
+                <br>
+                <input type="date" id="birthday">
+            </div>
+            <div class="box">
+                <font>Beschreibung:</font>
+                <br>
+                <input type="text" placeholder="Beschreibung ..." id="info">
+            </div>
+            <div class="box">
+                <font>Passwort: *</font>
+                <br>
+                <input type="password" id="password" placeholder="Passwort ...">
+            </div>
+            <div class="box">
+                <font>Passwort wiederholen: *</font>
+                <br>
+                <input type="password" id="password2" placeholder="Passwort wiederholen ...">
+            </div>
+            <div class="commit">
+                <button class="button" onclick="signup()">Account erstellen</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

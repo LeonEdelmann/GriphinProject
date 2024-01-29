@@ -1,0 +1,60 @@
+body {
+    background-color: rgb(5, 25, 35);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.content {
+    width: 75%;
+    margin: auto;
+    background-color:  rgb(0, 53, 84);
+    padding: 8px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    margin-top: 5vh;
+}
+.title {
+    text-align: center;
+}
+.info {
+    text-decoration: underline;
+    color: gray;
+}
+#error {
+    color: red;
+    font-weight: bold;
+    font-size: 24px;
+}
+.form {
+    width: 80%;
+    margin: auto;
+}
+input {
+    width: 100%;
+    padding: 8px;
+    background-color: rgb(0, 53, 84);
+    border: 0;
+    border-bottom: 2px solid rgb(0, 100, 148);
+    outline-width: 0;
+    color: white;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.box {
+    margin: 16px;
+}
+.commit {
+    text-align: center;
+    margin-top: 16px;
+}
+.button {
+    padding: 8px;
+    color: white;
+    background-color: rgb(0, 166, 251);
+    border: 0;
+    border-radius: 5px;
+}
+.button:hover {
+    color: black;
+    background-color: white;
+    cursor: pointer;
+}
