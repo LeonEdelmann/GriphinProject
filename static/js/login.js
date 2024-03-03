@@ -27,9 +27,9 @@ function login() {
     fetch('/login', options)
         .then(response => response.json()) 
         .then(result => {
-            if (result == 'Nutzername oder Passwort falsch.') {
-                errorField.innerHTML += result;
-            } else {
+            if (result == 'Nutzername oder Passwort falsch.' || result == 'Zu viele Fehlversuche') {
+                errorField.innerHTML = result;
+            } else if (result == 'OK'){
                 window.location.href = "/home";
             }
         });

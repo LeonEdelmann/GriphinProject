@@ -3,7 +3,8 @@
 
 from flask import Flask, render_template, session, redirect, url_for, request, jsonify
 from werkzeug.utils import secure_filename
-from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin, proofeBirthdate
+from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin, proofeBirthdate, noBruteForce, notimeout
+from datetime import datetime
 import secrets
 
 extensions = set(['jpg', 'jpeg', 'png'])
@@ -52,11 +53,24 @@ def login():
         username = request.json['username']
         password = request.json['password']
 
-        if allowedLogin(username, password) == 'OK':
-            session['username'] = username
-            return jsonify('OK')
-        elif allowedLogin(username, password) == 'Nutzername oder Passwort falsch.':
-            return jsonify('Nutzername oder Passwort falsch.')
+        ip_addr = request.remote_addr
+        now = datetime.now()
+        string = username + "," + str(ip_addr) + "," + str(now.strftime("%d/%m/%Y %H:%M:%S")) + "\n"
+        
+        f = open('database/login.txt', "a")
+        f.write(string)
+        f.close()
+
+        noBruteForce(username)
+
+        if notimeout(username) == True:
+            if allowedLogin(username, password) == 'OK':
+                session['username'] = username
+                return jsonify('OK')
+            elif allowedLogin(username, password) == 'Nutzername oder Passwort falsch.':
+                return jsonify('Nutzername oder Passwort falsch.')
+        else:
+            return jsonify('Zu viele Fehlversuche')
         
 @server.route('/home', methods=['GET', 'POST'])
 def home():
