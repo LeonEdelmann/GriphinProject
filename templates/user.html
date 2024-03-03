@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="tap">Schisscord | </title>
+    <script defer src="{{ url_for('static', filename='js/user.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css')}}">
+</head>
+<body>
+    <div class="left-side">
+        <div class="head">
+            <a href="/home">Zurück zur Startseite</a>
+        </div>
+        <div class="picture">
+            <div class="profile-pic">
+                <img id="image" src="{{ url_for('static', filename='imgs/user.png')}}" alt="profile-pic">
+            </div>
+        </div>
+        <div class="admin-pic" id="profilepicarea">
+            <div class="action" id="change">
+                <button onclick="edit_profile_pic()" class="button">Profilbild bearbeiten</button>
+            </div>
+    
+            <div id="change-pic" class="change-pic" hidden>
+                <div id="drop-area" class="drop-area">
+                    <div class="drop-area-text">Drag & Drop um Profilbild hochzuladen</div>
+                    <input type="file" id="file-input" class="file-input">
+                </div>
+                <div class="submits">
+                    <button onclick="cancel()" class="cancel">Abbrechen</button>
+                    <button onclick="submit()" class="submit">Speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right-side">
+        <div class="right-content">
+            <h1 id="username"></h1>
+            <p class="description" id="description"></p>
+            <div class="infos">
+                <h3>Nutzerinformationen:</h3>
+                <div class="box">
+                    <div class="element">
+                        <font onclick="changeh3('Freunde')" class="info" id="friends">Freunde: </font><font class="bigger" id="friendsN">0</font>
+                    </div>
+                    <div class="element">
+                        <font onclick="changeh3('Erstellte Communities')" class="info" id="madeCom">Erstellte Communities: </font><font class="bigger" id="madeComN">0</font>
+                    </div>
+                    <div class="element">
+                        <font onclick="changeh3('Beigetretene Communities')" class="info" id="enteredCom">Beigetretene Communities: </font><font class="bigger" id="enteredComN">0</font>
+                    </div>
+                </div>
+            </div>
+            <div class="content-field">
+                <h3 id="title">Freunde:</h3>
+                <div class="search">
+                    <input id="search-bar" type="text" class="search-bar" placeholder="In Freunde suchen...">
+                    <button onclick="search()" class="button">Suchen</button>
+                </div>
+                <div class="content" id="content">
+                    <h4>Nutzer hat noch keine Informationen!</h4>
+                </div>
+            </div>
+            <div class="actions">
+                <button onclick="add_friend()" class="button" id="friendbutton">Freundschaftsanfrage senden</button>
+                <button onclick="send_message()" class="button" id="messagesendbutton">Nachricht schreiben</button>
+                <button onclick="edit_profile()" class="button" id="editprofilebutton">Profil bearbeiten</button>
+                <button onclick="changePassword()" class="button" id="changepasswordbutton">Passwort ändern</button>
+                <button onclick="logout()" class="button" id="logoutbutton">Ausloggen</button>
+            </div>
+        </div>
+    </div>
+    <div class="edit-profile" id="edit" hidden>
+        <div class="form">
+            <h2>Profil bearbeiten</h2>
+            <div class="inpts">
+                <div class="inp">
+                    <font>Nutzername:</font>
+                    <div>
+                        <input class="input" type="text" id="new_username" placeholder="Nutzername...">
+                    </div>
+                </div>
+                <div class="inp">
+                    <font>Beschreibung:</font>
+                    <div>
+                        <input class="input" type="text" id="new_description" placeholder="Beschreibung...">
+                    </div>
+                </div>
+                <div class="inp">
+                    <font>E-Mail:</font>
+                    <div>
+                        <input class="input" type="text" id="new_email" placeholder="E-Mail...">
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <button onclick="cancel_edit()" class="cancel">Abbrechen</button>
+                <button class="submit">Ändern</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

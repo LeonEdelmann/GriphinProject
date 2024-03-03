@@ -3,7 +3,9 @@
 
 from flask import Flask, render_template, session, redirect, url_for, request, jsonify
 from werkzeug.utils import secure_filename
-from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin, proofeBirthdate, noBruteForce, notimeout
+from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin, proofeBirthdate
+from libs.bruteforce import noBruteForce, notimeout
+from libs.user import getuserInfo
 from datetime import datetime
 import secrets
 
@@ -29,8 +31,6 @@ def signup():
         password = request.json['password']
         birthday = request.json['birthday']
         info = request.json['info']
-        # ToDo:
-        # 2. Profilbild muss gespeichert werden un Path im array angeben
 
         if isUsernameUsed(username) == True:
             return jsonify('Nutzername vergeben.')
@@ -79,6 +79,26 @@ def home():
     else:
         return render_template('notLogin.html')
     
+@server.route('/user/<username>', methods=['GET', 'POST'])
+def user(username):
+    if 'username' in session:
+        if request.method == 'GET':
+            return render_template('user.html')
+    else:
+        return render_template('notLogin.html')
+    
+@server.route('/getuser/<username>', methods=['GET'])
+def getuser(username):
+    if 'username' in session:
+        answer = getuserInfo(username)
+        if username == session['username']:
+            answer['rights'] = 'Yes'
+            return jsonify(answer)
+        else:
+            answer['rights'] = 'No'
+            return jsonify(answer)
+    return render_template('notLogin.html')
+
 @server.route('/logout')
 def logout():
     session.pop('username', None)
