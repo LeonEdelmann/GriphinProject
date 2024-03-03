@@ -5,7 +5,7 @@ from flask import Flask, render_template, session, redirect, url_for, request, j
 from werkzeug.utils import secure_filename
 from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin, proofeBirthdate
 from libs.bruteforce import noBruteForce, notimeout
-from libs.user import getuserInfo
+from libs.user import getuserInfo, commitAllChanges, commitChanges, changePassword
 from datetime import datetime
 import secrets
 
@@ -84,6 +84,28 @@ def user(username):
     if 'username' in session:
         if request.method == 'GET':
             return render_template('user.html')
+        elif request.method == 'POST':
+            target = request.json['target']
+            currentUsername = request.json['currentUsername']
+            if currentUsername == session['username']:
+                if target == 'profile':
+                    new_username = request.json['username']
+                    new_description = request.json['description']
+                    new_email = request.json['email']
+                    id = request.json['id']
+                    if new_username == session['username']:
+                        return jsonify(commitChanges(new_description, new_email, id))
+                    else:
+                        answer = commitAllChanges(new_username, new_description, new_email, id)
+                        session['username'] = new_username
+                        return jsonify(answer)
+                elif target == 'password':
+                    password = request.json['currentpassword']
+                    new_password = request.json['newpassword']
+                    id = request.json['id']
+                    return jsonify(changePassword(password, new_password, id))
+            else:
+                return jsonify('Nicht dein Profil.')
     else:
         return render_template('notLogin.html')
     
@@ -91,13 +113,20 @@ def user(username):
 def getuser(username):
     if 'username' in session:
         answer = getuserInfo(username)
-        if username == session['username']:
-            answer['rights'] = 'Yes'
+        if answer == 'Nutzer existiert nicht.':
             return jsonify(answer)
         else:
-            answer['rights'] = 'No'
-            return jsonify(answer)
+            if username == session['username']:
+                answer['rights'] = 'Yes'
+                return jsonify(answer)
+            else:
+                answer['rights'] = 'No'
+                return jsonify(answer)
     return render_template('notLogin.html')
+
+@server.route('/wrongusername', methods=['GET'])
+def wrongusername():
+    return render_template('wrongusername.html')
 
 @server.route('/logout')
 def logout():

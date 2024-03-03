@@ -1,7 +1,7 @@
 import sqlite3
 from settings import settings
 import hashlib
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 # Funktion um Nutzer in die Datenbank einzutragen

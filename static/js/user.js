@@ -23,6 +23,12 @@ let edit = document.getElementById('edit');
 let new_name = document.getElementById('new_username');
 let new_description = document.getElementById('new_description');
 let new_email = document.getElementById('new_email');
+let errorField = document.getElementById('errorField');
+let password = document.getElementById('password');
+let currentPassword = document.getElementById('passwordinp');
+let newPassword = document.getElementById('new_password');
+let newPassword2 = document.getElementById('new_password2');
+let errorField2 = document.getElementById('errorField2');
 
 let currentURL = window.location.href;
 let array = currentURL.split('/');
@@ -33,6 +39,10 @@ function cancel_edit() {
     edit.style.display = 'none';
 }
 
+function cancel_password() {
+    password.style.display = 'none';
+}
+
 function cancel() {
     change_pic.setAttribute("hidden", true);
     change.style.display = 'block';
@@ -40,6 +50,83 @@ function cancel() {
 
 function submit() {
 
+}
+
+function submit_password() {
+    let a = currentPassword.value;
+    let b = newPassword.value;
+    let c = newPassword2.value;
+    let currPassword = sha256(a);
+    let new_password = sha256(b);
+    let new_password2 = sha256(c);
+    let target = 'password';
+    let id = userstats.id;
+
+    if (a == '' || b == '') {
+        errorField2.innerText = 'Alle Felder müssen ausgefüllt werden!';
+    } else {
+        if (new_password == new_password2) {
+            let commit = {
+                currentUsername: userstats.username,
+                currentpassword: currPassword,
+                newpassword: new_password,
+                target: target,
+                id: id
+            }
+            let options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commit)
+            };
+        
+            fetch('/user/' + username, options)
+                .then(response => response.json()) 
+                .then(result => {
+                    if (result == 'Passwort ändern fehlgeschlagen.' || result == 'Aktuelles Passwort falsch eingegeben!') {
+                        errorField2.innerText = result;
+                    } else if (result == 'OK') {
+                        cancel_password();
+                    }
+                });
+        } else {
+            errorField2.innerText = 'Passwort nicht korrekt wiederholt!';
+        }
+    }
+}
+
+function submit_edit() {
+    let new_name_entered = new_name.value;
+    let new_info = new_description.value;
+    let new_email_entered = new_email.value;
+    let target = 'profile';
+    let id = userstats.id;
+    let commit = {
+        currentUsername: userstats.username,
+        username: new_name_entered,
+        description: new_info,
+        email: new_email_entered,
+        id: id,
+        target: target
+    }
+    let options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(commit)
+    };
+
+    fetch('/user/' + username, options)
+        .then(response => response.json()) 
+        .then(result => {
+            if (result == 'E-Mail nicht erlaubt.' || result == 'Nutzername bereits vergeben.') {
+                errorField.innerHTML = result;
+            } else if (result == 'OK') {
+                window.location.href = '/user/' + new_name_entered;
+            }
+        });
 }
 
 function edit_profile_pic() {
@@ -63,7 +150,7 @@ function edit_profile() {
 }
 
 function changePassword() {
-
+    password.style.display = 'flex';
 }
 
 function search() {
@@ -111,6 +198,10 @@ async function getAccount() {
             return response.json();
         })
         .then(data => {
+            if (data == 'Nutzer existiert nicht.') {
+                window.location.href = '/wrongusername';
+                return;
+            }
             userstats = data;
             console.log(userstats);
             setRights();

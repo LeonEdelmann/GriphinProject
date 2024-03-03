@@ -6,6 +6,7 @@
     <title id="tap">Schisscord | </title>
     <script defer src="{{ url_for('static', filename='js/user.js')}}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css')}}">
+    <script defer src="{{ url_for('static', filename='js/sha256.js')}}"></script>
 </head>
 <body>
     <div class="left-side">
@@ -74,6 +75,7 @@
     <div class="edit-profile" id="edit" hidden>
         <div class="form">
             <h2>Profil bearbeiten</h2>
+            <font id="errorField"></font>
             <div class="inpts">
                 <div class="inp">
                     <font>Nutzername:</font>
@@ -96,7 +98,37 @@
             </div>
             <div class="buttons">
                 <button onclick="cancel_edit()" class="cancel">Abbrechen</button>
-                <button class="submit">Ändern</button>
+                <button onclick="submit_edit()" class="submit">Ändern</button>
+            </div>
+        </div>
+    </div>
+    <div class="edit-password" id="password" hidden>
+        <div class="form">
+            <h2>Passwort ändern</h2>
+            <font id="errorField2"></font>
+            <div class="inpts">
+                <div class="inp">
+                    <font>Aktuelles Passwort:</font>
+                    <div>
+                        <input class="input" type="password" id="passwordinp" placeholder="Aktuelles Psswort...">
+                    </div>
+                </div>
+                <div class="inp">
+                    <font>Neues Psswort:</font>
+                    <div>
+                        <input class="input" type="password" id="new_password" placeholder="Neues Passwort...">
+                    </div>
+                </div>
+                <div class="inp">
+                    <font>Neues Passwort wiederholen:</font>
+                    <div>
+                        <input class="input" type="password" id="new_password2" placeholder="Neues Passwort wiederholen...">
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <button onclick="cancel_password()" class="cancel">Abbrechen</button>
+                <button onclick="submit_password()" class="submit">Ändern</button>
             </div>
         </div>
     </div>

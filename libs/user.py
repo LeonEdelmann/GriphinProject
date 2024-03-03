@@ -1,4 +1,6 @@
 import sqlite3
+from libs.users import isUsernameUsed, prooveEmail
+import hashlib
 
 def getuserInfo(username):
     connection = sqlite3.connect('database/user.db')
@@ -7,6 +9,9 @@ def getuserInfo(username):
     user = cursor.fetchone()
     connection.commit()
     connection.close()
+
+    if user == None:
+        return 'Nutzer existiert nicht.'
 
     id = user[0]
     email = user[3]
@@ -46,4 +51,49 @@ def getuserInfo(username):
 
     return {'username': name, 'info': info, 'profile_pic': profile_pic, 'friends': 
             friends, 'friendslist': friends_list, 'foundedcoms': foundedcommunities, 
-            'founded_list': founded_list, 'membernum': membernum, 'community_list': comlist, 'email': email}
+            'founded_list': founded_list, 'membernum': membernum, 'community_list': comlist, 
+            'email': email, 'id': id}
+
+def commitChanges(description, email, id) -> str:
+    if prooveEmail(email) == True:
+        connection = sqlite3.connect('database/user.db')
+        cursor = connection.cursor()
+        cursor.execute('UPDATE users SET email = ?,info = ? WHERE id = ?', (email, description, id,))
+        connection.commit()
+        connection.close()
+        print('ok')
+        return 'OK'
+    else:
+        return 'E-Mail nicht erlaubt.'
+
+def commitAllChanges(username, description, email, id) -> str:
+    if isUsernameUsed(username) == False:
+        if prooveEmail(email) == True:
+            connection = sqlite3.connect('database/user.db')
+            cursor = connection.cursor()
+            cursor.execute('UPDATE users SET username = ?, email = ?, info = ? WHERE id = ?', (username, email, description, id,))
+            connection.commit()
+            connection.close()
+            return 'OK'
+        else: 
+            return 'E-Mail nicht erlaubt.'
+    else:
+        return 'Nutzername bereits vergeben.'
+
+def changePassword(password, new_password, id):
+    connection = sqlite3.connect('database/user.db')
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM users WHERE id = ?', (id,))
+    user = cursor.fetchone()
+    connection.commit()
+    connection.close()
+    if hashlib.sha512(password.encode('utf-8')).hexdigest() == user[4]:
+        connection = sqlite3.connect('database/user.db')
+        cursor = connection.cursor()
+        cursor.execute('UPDATE users SET password = ? WHERE id = ?', (hashlib.sha512(new_password.encode('utf-8')).hexdigest(), id,))
+        user = cursor.fetchone()
+        connection.commit()
+        connection.close()
+        return 'OK'
+    else:
+        return 'Aktuelles Passwort falsch eingegeben!'
