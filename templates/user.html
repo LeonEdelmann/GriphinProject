@@ -19,20 +19,28 @@
             </div>
         </div>
         <div class="admin-pic" id="profilepicarea">
+            <font id="errorField3"></font>
             <div class="action" id="change">
                 <button onclick="edit_profile_pic()" class="button">Profilbild bearbeiten</button>
             </div>
     
-            <div id="change-pic" class="change-pic" hidden>
-                <div id="drop-area" class="drop-area">
-                    <div class="drop-area-text">Drag & Drop um Profilbild hochzuladen</div>
-                    <input type="file" id="file-input" class="file-input">
+            <form id="form" action="/uploadprofile-pic" method="post" enctype="multipart/form-data">
+                <div id="change-pic" class="change-pic" hidden>
+                    <div id="drop-area" class="drop-area">
+                        <div class="drop-area-text">Drag & Drop um Profilbild hochzuladen</div>
+                        <input type="text" name="currentUsername" hidden id="username-field">
+                        <input type="text" name="id" hidden id="id-field">
+                        <div class="space">
+                            <label for="file-input" class="custom">Datei auswählen</label>
+                            <input name="file" type="file" id="file-input" class="file-input">
+                        </div>
+                    </div>
+                    <div class="submits">
+                        <button onclick="cancel()" class="cancel">Abbrechen</button>
+                        <button onclick="submit()" class="submit">Ändern</button>
+                    </div>
                 </div>
-                <div class="submits">
-                    <button onclick="cancel()" class="cancel">Abbrechen</button>
-                    <button onclick="submit()" class="submit">Speichern</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
     <div class="right-side">

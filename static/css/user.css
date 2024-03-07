@@ -28,6 +28,7 @@ a {
     background-color: rgb(0, 100, 148);
     display: inline-block;
     border-radius: 100%;
+    overflow: hidden;
 }
 img {
     width: 100%;
@@ -49,9 +50,7 @@ img {
 .drop-area-text {
     font-size: 18px;
 } 
-.file-input {
-    display: none;
-}
+
 .submits {
     width: 90%;
     text-align: right;
@@ -135,7 +134,7 @@ h4 {
     cursor: pointer;
     text-decoration: underline;
 }
-.button:hover, a:hover {
+.button:hover, a:hover, .custom:hover {
     background-color: white;
     color: black;
     cursor: pointer;
@@ -177,6 +176,18 @@ h2 {
 .buttons {
     text-align: center;
 }
-#errorField, #errorField2 {
+#errorField, #errorField2, #errorField3 {
     color: red;
+}
+input[type="file"] {
+    display: none;
+}
+.custom {
+    background-color: rgb(0, 166, 251);
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+}
+.space {
+    margin-top: 12px;
 }

@@ -1,6 +1,7 @@
 import sqlite3
 from libs.users import isUsernameUsed, prooveEmail
 import hashlib
+from settings import settings
 
 def getuserInfo(username):
     connection = sqlite3.connect('database/user.db')
@@ -97,3 +98,13 @@ def changePassword(password, new_password, id):
         return 'OK'
     else:
         return 'Aktuelles Passwort falsch eingegeben!'
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in settings['extensions']
+
+def writeProfile_pic(id, path):
+    connection = sqlite3.connect('database/user.db')
+    cursor = connection.cursor()
+    cursor.execute('UPDATE users SET profile_pic = ? WHERE id = ?', (path, id,))
+    connection.commit()
+    connection.close()

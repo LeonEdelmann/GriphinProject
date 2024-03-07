@@ -5,12 +5,13 @@ from flask import Flask, render_template, session, redirect, url_for, request, j
 from werkzeug.utils import secure_filename
 from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin, proofeBirthdate
 from libs.bruteforce import noBruteForce, notimeout
-from libs.user import getuserInfo, commitAllChanges, commitChanges, changePassword
+from libs.user import getuserInfo, commitAllChanges, commitChanges, changePassword, allowed_file, writeProfile_pic
 from datetime import datetime
 import secrets
+import os
+import base64
 
-extensions = set(['jpg', 'jpeg', 'png'])
-folder = 'database/img/'
+folder = 'static/imgs/'
 
 server = Flask(__name__)
 
@@ -108,7 +109,26 @@ def user(username):
                 return jsonify('Nicht dein Profil.')
     else:
         return render_template('notLogin.html')
-    
+
+@server.route('/uploadprofile-pic', methods=['POST'])
+def uploadprofile_pic():
+    if 'username' in session:
+        username = request.form['currentUsername']
+        id = request.form['id']
+        img = request.files['file']
+        if username == session['username']:
+            if allowed_file(img.filename):
+                filename = secure_filename(img.filename)
+                img.save(os.path.join(folder, filename))
+                writeProfile_pic(id, filename)
+                return redirect(url_for('main'))
+            else:
+                return render_template('sthwentwrong.html')
+        else: 
+            return render_template('sthwentwrong.html')
+    else:
+        return redirect(url_for('main'))
+
 @server.route('/getuser/<username>', methods=['GET'])
 def getuser(username):
     if 'username' in session:

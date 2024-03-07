@@ -8,5 +8,6 @@ settings = {
     "debug": True,
     "adminURL": "/dvfbdlcvsbd",
     "secret_key": "LinusIstDoof",
-    "allowedEMAILS": ['@icloud', '@outlook', '@gmail', '@web', '@gmx']
+    "allowedEMAILS": ['@icloud', '@outlook', '@gmail', '@web', '@gmx'],
+    "extensions": set(['jpg', 'jpeg', 'png'])
 }

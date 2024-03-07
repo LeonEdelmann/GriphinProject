@@ -29,6 +29,9 @@ let currentPassword = document.getElementById('passwordinp');
 let newPassword = document.getElementById('new_password');
 let newPassword2 = document.getElementById('new_password2');
 let errorField2 = document.getElementById('errorField2');
+let errorField3 = document.getElementById('errorField3');
+let id_field = document.getElementById('id-field');
+let username_field = document.getElementById('username-field');
 
 let currentURL = window.location.href;
 let array = currentURL.split('/');
@@ -180,6 +183,8 @@ function setRights() {
     if (userstats.rights == 'Yes') {
         friend_request_button.style.display = "none";
         message_send_button.style.display = "none";
+        username_field.value = userstats.username;
+        id_field.value = userstats.id;
     } else {
         edit_profile_button.style.display = "none";
         change_password_button.style.display = "none";
