@@ -5,11 +5,10 @@ from flask import Flask, render_template, session, redirect, url_for, request, j
 from werkzeug.utils import secure_filename
 from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin, proofeBirthdate
 from libs.bruteforce import noBruteForce, notimeout
-from libs.user import getuserInfo, commitAllChanges, commitChanges, changePassword, allowed_file, writeProfile_pic
+from libs.user import getuserInfo, commitAllChanges, commitChanges, changePassword, allowed_file, writeProfile_pic, make_file_name
 from datetime import datetime
 import secrets
 import os
-import base64
 
 folder = 'static/imgs/'
 
@@ -118,7 +117,7 @@ def uploadprofile_pic():
         img = request.files['file']
         if username == session['username']:
             if allowed_file(img.filename):
-                filename = secure_filename(img.filename)
+                filename = secure_filename(make_file_name() + '.png')
                 img.save(os.path.join(folder, filename))
                 writeProfile_pic(id, filename)
                 return redirect(url_for('main'))
@@ -132,16 +131,16 @@ def uploadprofile_pic():
 @server.route('/getuser/<username>', methods=['GET'])
 def getuser(username):
     if 'username' in session:
-        answer = getuserInfo(username)
+        rights = ''
+        if username == session['username']:
+            rights = 'Yes'
+        else:
+            rights = 'No'
+        answer = getuserInfo(username, rights)
         if answer == 'Nutzer existiert nicht.':
             return jsonify(answer)
         else:
-            if username == session['username']:
-                answer['rights'] = 'Yes'
-                return jsonify(answer)
-            else:
-                answer['rights'] = 'No'
-                return jsonify(answer)
+            return jsonify(answer)
     return render_template('notLogin.html')
 
 @server.route('/wrongusername', methods=['GET'])
