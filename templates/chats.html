@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schisscord | Chats</title>
+    <script defer src="{{ url_for('static', filename='js/chats.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chats.css')}}">
+</head>
+<body>
+    <div class="own-profile" onclick="loadOwnProfile()">
+        <img id="own_pic" src="{{ url_for('static', filename='imgs/user.png')}}" alt="profile-pic">
+    </div>
+    <div class="chat-list">
+        <div class="head">
+            <h1>Chats</h1>
+        </div>
+        <div id="list" class="contact-list">
+        </div>
+    </div>
+
+
+
+    <div class="chat-content">
+        <div class="top-bar">
+            <div class="chat-pic">
+                <img id="chat-pic" src="{{ url_for('static', filename='imgs/user.png')}}" alt="profile-pic">
+            </div>
+            <div class="name">
+                <h2 id="h2">Nutzername</h2>
+            </div>
+        </div>
+        <div class="messages" id="messages">
+            <div class="info">
+                <p>Alle Nachrichten in diesem Chat werden verschlüsselt gespeichert.</p>
+            </div>
+            <div class="right">
+                <div class="message a">
+                    hallo
+                </div>
+                <div class="status">
+                    <font>Gesendet: 10.3.2024 12:38</font>
+                    <font>Gelesen</font>
+                </div>
+            </div>
+            <div class="left">
+                <div class="message b">
+                    hallo
+                </div>
+                <div class="status">
+                    <font>Gesendet: 10.3.2024 12:38</font>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-bar">
+            <div class="inputs">
+                <input id="message" type="text" placeholder="Schreibe eine Nachricht...">
+                <button class="button" onclick="send()">Senden</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

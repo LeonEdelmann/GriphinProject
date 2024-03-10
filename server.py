@@ -2,10 +2,12 @@
 # Mach nichts ohne mich hier, weil die Datei wird riesig werden
 
 from flask import Flask, render_template, session, redirect, url_for, request, jsonify
+from flask_socketio import SocketIO
 from werkzeug.utils import secure_filename
 from libs.users import writeUser, isUsernameUsed, prooveEmail, allowedLogin, proofeBirthdate
 from libs.bruteforce import noBruteForce, notimeout
 from libs.user import getuserInfo, commitAllChanges, commitChanges, changePassword, allowed_file, writeProfile_pic, make_file_name
+from libs.chats import make_chat, getchatJson
 from datetime import datetime
 import secrets
 import os
@@ -13,6 +15,7 @@ import os
 folder = 'static/imgs/'
 
 server = Flask(__name__)
+Socketio = SocketIO(server)
 
 @server.route('/', methods=['GET'])
 def main():
@@ -108,6 +111,16 @@ def user(username):
                 return jsonify('Nicht dein Profil.')
     else:
         return render_template('notLogin.html')
+    
+@server.route('/sendmessage', methods=['POST'])
+def sendMessage():
+    if 'username' in session:
+        personA = session['username']
+        personB = request.json['username']
+        make_chat(personA, personB)
+        return jsonify('OK')
+    else:
+        return render_template('notLogin.html')
 
 @server.route('/uploadprofile-pic', methods=['POST'])
 def uploadprofile_pic():
@@ -146,6 +159,23 @@ def getuser(username):
 @server.route('/wrongusername', methods=['GET'])
 def wrongusername():
     return render_template('wrongusername.html')
+
+@server.route('/chats', methods=['GET', 'POST'])
+def chats():
+    if 'username' in session:
+        if request.method == 'GET':
+            return render_template('chats.html')
+        else:
+            pass
+    else:
+        return render_template('notLogin.html')
+    
+@server.route('/chatjson', methods=['GET'])
+def chatjson():
+    if 'username' in session:
+        return jsonify(getchatJson(session['username']))
+    else:
+        return render_template('notLogin.html')
 
 @server.route('/logout')
 def logout():

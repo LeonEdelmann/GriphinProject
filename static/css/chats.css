@@ -1,0 +1,178 @@
+body {
+    background-color: rgb(5, 25, 35);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.chat-list {
+    width: 28%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 53, 84);
+}
+.chat-content {
+    width: 72%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+.top-bar {
+    width: 100%;
+    height: 7vh;
+    background-color: rgb(5, 130, 202);
+}
+.chat-pic {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    display: inline-block;
+    border-radius: 100%;
+    background-color: rgb(0, 100, 148);
+    margin: 8px;
+}
+img {
+    width: 100%;
+    height: 100%;
+}
+.name {
+    display: inline-block;
+    position: fixed;
+    height: 7vh;
+    top: 0;
+}
+h2 {
+    margin: 0;
+    margin-top: 12%;
+}
+h2:hover {
+    cursor: pointer;
+}
+.bottom-bar {
+    width: 72%;
+    height: 9vh;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    border-top: 2px solid rgb(0, 166, 251);
+}
+.inputs {
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
+}
+input {
+    width: 85%;
+    font-size: larger;
+    background-color: rgb(5, 25, 35);
+    border: 0;
+    border-bottom: 1px solid rgb(0, 166, 251);
+    padding: 8px;
+    outline-width: 0;
+    color: white;
+}
+.button {
+    font-size: larger;
+    background-color: rgb(0, 166, 251);
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    padding: 8px;
+}
+.button:hover {
+    color: black;
+    background-color: white;
+    cursor: pointer;
+}
+.messages {
+    width: 72%;
+    height: 84vh;
+    position: fixed;
+    right: 0;
+    top: 7vh;
+    overflow: auto;
+}
+.a {
+    text-align: right;
+    background-color: rgb(5, 130, 202);
+    border-radius: 10px 10px 0px 10px;
+}
+.message {
+    width: 40%;
+    padding: 10px;
+    margin: 8px;
+    display: inline-block;
+    text-align: left;
+}
+.b {
+    text-align: left;
+    background-color: white;
+    color: black;
+    border-radius: 10px 10px 10px 0px;
+}
+.right {
+    text-align: right;
+}
+.left {
+    text-align: left;
+}
+.info {
+    text-align: center;
+    color: gray;
+}
+font {
+    color: gray;
+    padding: 8px;
+}
+h1 {
+    margin: 8px;
+}
+.profile-pic {
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    display: inline-block;
+    border-radius: 100%;
+    background-color: rgb(0, 100, 148);
+    margin: 8px;
+}
+.contact {
+    border-bottom: 1px solid rgb(0, 166, 251);
+    display: flex;
+
+}
+.p-name {
+    display: flex;
+}
+.profile-name {
+    font-size: x-large;
+    color: white;
+    margin-top: 15px;
+}
+.head {
+    height: 6vh;
+    border-bottom: 1px solid rgb(0, 166, 251);
+}
+.contact-list {
+    height: 93vh;
+    overflow: auto;
+}
+.contact:hover {
+    cursor: pointer;
+}
+.own-profile {
+    width: 70px;
+    height: 70px;
+    display: inline-block;
+    background-color: rgb(0, 166, 251);
+    border-radius: 100%;
+    overflow: hidden;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 2;
+}
+.own-profile:hover {
+    cursor: pointer;
+}

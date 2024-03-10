@@ -1,7 +1,7 @@
 # Diese Datei ist eigentlich fertig.
 # Wenn du testest musst die diese Datei starten
 
-from server import server, folder
+from server import server, folder, Socketio
 from settings import settings
 import sqlite3
 
@@ -18,6 +18,20 @@ def generateTables():
     cursor = connection.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS friends
             (persona TEXT, personb TEXT, status TEXT)''')
+    connection.commit()
+    connection.close()
+    # Chats Datenbank
+    connection = sqlite3.connect('database/chats.db')
+    cursor = connection.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS chats
+            (persona TEXT, personb TEXT)''')
+    connection.commit()
+    connection.close()
+    # Messages Datenbank
+    connection = sqlite3.connect('database/messages.db')
+    cursor = connection.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS messages
+            (datetime TEXT, isread TEXT, message TEXT, writer TEXT, reader TEXT)''')
     connection.commit()
     connection.close()
     # Communities Datenbank
@@ -40,4 +54,4 @@ if __name__ == "__main__":
     server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     server.config['UPLOAD_FOLDER'] = folder
     generateTables()
-    server.run(host=settings['host'], port=settings['port'], debug=settings['debug'], threaded=True)
+    Socketio.run(server, host=settings['host'], port=settings['port'], debug=settings['debug'])

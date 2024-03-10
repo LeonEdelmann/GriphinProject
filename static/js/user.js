@@ -51,10 +51,6 @@ function cancel() {
     change.style.display = 'block';
 }
 
-function submit() {
-
-}
-
 function submit_password() {
     let a = currentPassword.value;
     let b = newPassword.value;
@@ -142,7 +138,26 @@ function add_friend() {
 }
 
 function send_message() {
+    let commit = {
+        username: userstats.username
+    }
+    let options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(commit)
+    };
 
+    fetch('/sendmessage', options)
+        .then(response => response.json()) 
+        .then(result => {
+            if (result == 'OK') {
+                window.location.href = '/chats';
+            } else {
+                console.log(result);
+            }
+        });
 }
 
 function edit_profile() {
